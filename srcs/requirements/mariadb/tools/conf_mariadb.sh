@@ -1,8 +1,8 @@
 #!/bin/bash
 
-db_name = wordpres_db
-db_user = preina-g
-db_pwd = 1234
+db_name=wordpres_db
+db_user=preina-g
+db_pwd=1234c
 
 #start the service mysql
 service mysql start
