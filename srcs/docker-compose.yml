@@ -1,0 +1,70 @@
+version: '3'
+
+services:
+  mariadb:
+    container_name: mariadb
+    build: ./requirements/mariadb
+    image: inception_mariadb
+    volumes:
+      - mariadb:/var/lib/mysql
+    # in case of problem we restart automatically the container
+    restart: on-failure
+    env_file:
+      - .env
+    networks:
+      - inception
+
+  wordpress:
+    container_name: wordpress
+    build: ./requirements/wordpress #set where the Dockerfile will build
+    image: inception_wordpress #set the image name
+    depends_on:
+      - mariadb
+    #depends_on: #set that the service depend of the service wordpress
+    #  - wordpress
+    volumes: #set that the volume to connect is wordpress and the folder inside the containeer is /var/www/html for web config
+      - wordpress:/var/www/html
+    # env_file: #set the env_file to take the enviroment variables
+    #   - ./.env
+    networks: 
+      - inception
+    env_file:
+      - .env
+    restart: on-failure # restart the machine always that it needed
+
+  nginx:
+    container_name: nginx
+    build: ./requirements/nginx #set where the Dockerfile will build
+    image: inception_nginx #set the image name
+    depends_on:
+      - wordpress
+    volumes: #set that the volume to connect is wordpress and the folder inside the containeer is /var/www/html for web config
+      - wordpress:/var/www/html
+    ports: #set the por where the machine is listening
+      - 443:443
+    networks: 
+      - inception
+    env_file:
+      - .env
+    restart: on-failure # restart the machine always that it needed
+
+networks:
+  inception:
+    name: inception
+
+volumes:
+  mariadb:
+    driver: local
+    driver_opts:
+      type: none
+      device: /Users/preina-g/Desktop/new-42-inception/srcs/requirements/mariadb
+      o: bind
+
+  wordpress: 
+    #Define the driver, driver let you to store volumes in remote hosts
+    driver: local #local means that the volumes are created in the same host that we exec the container
+    #Define The driver options
+    driver_opts:
+      type: none #the filesytem type to use in the volume
+      device: /Users/preina-g/Desktop/new-42-inception/srcs/requirements/wordpress #set the path where we connect the container
+      o: bind
