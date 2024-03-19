@@ -1,5 +1,9 @@
 #!/bin/bash
 
+db_name=wordpres_db
+db_user=preina-g
+db_pwd=1234
+
 mkdir /var/www/
 mkdir /var/www/html
 
