@@ -5,7 +5,7 @@ server {
 	listen [::]:443 ssl; # IPv6
 
 # replace login with your own loggin
-	server_name www.login.42.fr login.42.fr;
+	server_name www.preina-g.42.fr preina-g.42.fr;
 
 # The ssl_certificate and ssl_certificate_key directives specify the locations of the SSL/TLS certificate and private key, respectively, that will be used to encrypt the traffic. The ssl_protocols directive specifies the TLS protocols that the server should support.
 	ssl_certificate /etc/ssl/certs/preina-g.crt;
