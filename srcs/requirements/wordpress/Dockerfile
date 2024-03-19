@@ -11,4 +11,4 @@ RUN chmod +x /conf_wordpress.sh
 # exposes the port 9000 for connect to nginx
 EXPOSE 9000
 
-CMD [ "/conf_wordpress.sh" ]
+ENTRYPOINT [ "/conf_wordpress.sh" ]

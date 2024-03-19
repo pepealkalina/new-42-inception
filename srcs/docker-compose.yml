@@ -57,7 +57,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /Users/preina-g/Desktop/new-42-inception/srcs/requirements/mariadb
+      device: /home/preina-g/new-42-inception/srcs/requirements/mariadb
       o: bind
 
   wordpress: 
@@ -66,5 +66,5 @@ volumes:
     #Define The driver options
     driver_opts:
       type: none #the filesytem type to use in the volume
-      device: /Users/preina-g/Desktop/new-42-inception/srcs/requirements/wordpress #set the path where we connect the container
+      device: /home/preina-g/new-42-inception/srcs/requirements/wordpress #set the path where we connect the container
       o: bind
