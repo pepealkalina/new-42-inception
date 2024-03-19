@@ -2,10 +2,10 @@
 
 db_name=wordpres_db
 db_user=preina-g
-db_pwd=1234c
+db_pwd="1234"
 
-#start the service mysql
-service mysql start
+# start the service mysql
+# service mysql start
 
 #create and configure a new database
 echo "CREATE DATABASE IF NOT EXISTS $db_name ;" > db1.sql
