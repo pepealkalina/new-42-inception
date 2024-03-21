@@ -1,15 +1,18 @@
+#FROM set the base image for the container, I'm using debian:bullseye because is more stable than apilne
 FROM debian:bullseye
 
-RUN apt update && apt -y upgrade
-RUN apt install -y nginx openssl
+#RUN run a command inside the container while building
+#the ppackage manager for debian is apt and we use this to install nginx
+RUN apt update && apt upgrade && apt install -y nginx openssl
 
-RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/preina-g.key -out /etc/ssl/certs/preina-g.crt -subj "/C=ES/L=Malaga/O=42_Malaga/OU=student/CN=preina-g.42.fr"
+COPY tools/config_nginx.sh /config_nginx.sh
 
-COPY conf/default /etc/nginx/sites-available/default
+RUN chmod +x config_nginx.sh
 
-COPY tools/nginx.sh /init.sh
-RUN chmod +x /init.sh
+#cambia el fichero conf.d por nginx.conf y establece la configuracion de nginx
+COPY ./conf/default /etc/nginx/sites-available/default
+
 EXPOSE 443
 
-CMD [ "/init.sh" ]
+ENTRYPOINT [ "/config_nginx.sh" ]
 

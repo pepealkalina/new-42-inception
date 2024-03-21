@@ -1,8 +1,9 @@
-version: '3'
+version: '3.7'
 
 services:
   mariadb:
     container_name: mariadb
+    hostname: mariadb
     build: ./requirements/mariadb
     image: inception_mariadb
     volumes:
@@ -13,9 +14,12 @@ services:
       - .env
     networks:
       - inception
+    expose:
+      - "3306"
 
   wordpress:
     container_name: wordpress
+    hostname: wordpress
     build: ./requirements/wordpress #set where the Dockerfile will build
     image: inception_wordpress #set the image name
     depends_on:
@@ -31,9 +35,12 @@ services:
     env_file:
       - .env
     restart: on-failure # restart the machine always that it needed
+    expose:
+      - "9000"
 
   nginx:
     container_name: nginx
+    hostname: nginx
     build: ./requirements/nginx #set where the Dockerfile will build
     image: inception_nginx #set the image name
     depends_on:
@@ -50,14 +57,14 @@ services:
 
 networks:
   inception:
-    name: inception
+    driver: bridge
 
 volumes:
   mariadb:
     driver: local
     driver_opts:
       type: none
-      device: /home/preina-g/new-42-inception/srcs/requirements/mariadb
+      device: /Users/preina-g/Desktop/new-42-inception/srcs/requirements/mariadb
       o: bind
 
   wordpress: 
@@ -66,5 +73,5 @@ volumes:
     #Define The driver options
     driver_opts:
       type: none #the filesytem type to use in the volume
-      device: /home/preina-g/new-42-inception/srcs/requirements/wordpress #set the path where we connect the container
+      device: /Users/preina-g/Desktop/new-42-inception/srcs/requirements/wordpress #set the path where we connect the container
       o: bind

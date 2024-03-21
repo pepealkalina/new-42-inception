@@ -5,6 +5,7 @@ RUN apt update && apt -y upgrade
 #install mmariadb-server
 RUN apt install -y mariadb-server
 
+
 #copy the configuration file for this mariadb server and set permission to avoid World-writable error
 COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 RUN chmod 644 /etc/mysql/mariadb.conf.d/50-server.cnf
@@ -17,4 +18,4 @@ RUN chmod +x /conf_mariadb.sh
 EXPOSE 3306
 
 #run the copied script
-CMD [ "/conf_mariadb.sh" ]
+ENTRYPOINT [ "/conf_mariadb.sh" ]

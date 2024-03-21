@@ -1,26 +1,17 @@
 #!/bin/bash
+#!/bin/sh
+service mariadb start;
 
-db_name=wordpres_db
-db_user=preina-g
-db_pwd="1234"
+mysqladmin -u root -p 1234 shutdown
 
-# start the service mysql
-# service mysql start
+mysql -e "CREATE USER IF NOT EXISTS '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PWD';"
+mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '1234';"
+mysql -e "GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%' IDENTIFIED BY '$DB_PWD';"
+mysql -e "CREATE DATABASE IF NOT EXISTS '$DB_NAME';"
+mysql -e "FLUSH PRIVILEGES;"
 
-#create and configure a new database
-echo "CREATE DATABASE IF NOT EXISTS $db_name ;" > db1.sql
-echo "CREATE USER IF NOT EXISTS '$db_user'@'%' IDENTIFIED BY '$db_pwd' ;" >> db1.sql
-echo "GRANT ALL PRIVILEGES ON $db_name.* TO '$db_user'@'%' ;" >> db1.sql
+mysqladmin -u root -p 1234 shutdown
 
-#set root connection
-echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '12345' ;" >> db1.sql
-
-#The Flush Privileges statement reloads the grant tables' privileges, ensuring that any changes made to user permissions are immediately applied without requiring a restart of the MySQL server. (copy from google)
-echo "FLUSH PRIVILEGES;" >> db1.sql
-
-mysql < db1.sql
-
-#kil the first mysqld proces by mysqld.pid
-kill $(cat /var/run/mysqld/mysqld.pid)
+kill $(cat /run/mysqld/mysqld.pid)
 
 mysqld
